@@ -29,12 +29,12 @@ Geometry::Geometry( const double x_max, const double y_max, const double mesh_si
     cout << "y_size: " << _y_size << endl;
 
     // Dynamically allocate space for array
-    potentials = (Node *) malloc (getNumNodes() * sizeof(Node));
+    potentials = new Node[getNumNodes()];
 }
 
 Geometry::~Geometry()
 {
-    free(potentials);
+    delete potentials;
 }
 
 void Geometry::initPotentials( const double guess )
@@ -156,7 +156,7 @@ double Geometry::iterate( float accel_factor )
     double maxError = 0.0f;
 
     Node *potentials_shadow;
-    potentials_shadow = (Node *) malloc (getNumNodes() * sizeof(Node));   
+    potentials_shadow = new Node[getNumNodes()];   
 
     double error;
     for(uint16_t i = 0; i < getNumNodes(); i++)
@@ -169,7 +169,7 @@ double Geometry::iterate( float accel_factor )
             maxError = error;
     }
 
-    free(potentials);
+    delete potentials;
     potentials = potentials_shadow;
 
     cout << maxError << endl;
