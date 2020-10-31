@@ -9,23 +9,15 @@ using namespace std;
 // ################################################################################
 // DEFINITIONS
 // ################################################################################
-// Define initial state of array
-#define INIT_GUESS  35.0f	// unit: V
-
 // Define macro for easier 2d memory access
 #define POTENTIALS(x,y) potentials[(y)*_x_size+x] 
 
 #define FGET_BUF_SIZE   100
 
-#define ACCEL_FACT  0.5
-
-#define FNAME_MESH_CFG  "../config/mesh.cfg"
-#define FNAME_BOUNDARY  "../config/boundary.cfg"
-
 // ################################################################################
 // GEOMETRY
 // ################################################################################
-Geometry::Geometry( double x_max, double y_max, double mesh_size )
+Geometry::Geometry( const double x_max, const double y_max, const double mesh_size )
 {
     _mesh_size = mesh_size;
 
@@ -38,12 +30,6 @@ Geometry::Geometry( double x_max, double y_max, double mesh_size )
 
     // Dynamically allocate space for array
     potentials = (Node *) malloc (getNumNodes() * sizeof(Node));
-
-    // Initialize all mesh nodes to predefined guess
-    initPotentials();
-
-    // Initialize the boundary mesh nodes to static values
-    initBoundaries();
 }
 
 Geometry::~Geometry()
@@ -51,16 +37,16 @@ Geometry::~Geometry()
     free(potentials);
 }
 
-void Geometry::initPotentials( void )
+void Geometry::initPotentials( const double guess )
 {
     uint32_t elements = (uint32_t)(_y_size * _x_size);
     for(uint32_t i = 0; i < elements; i++)
     {
-        potentials[i] = Node(INIT_GUESS, false);
+        potentials[i] = Node(guess, false);
     }
 }
 
-void Geometry::initBoundaries( void )
+void Geometry::initBoundaries( const char *fname )
 {
     char buf[FGET_BUF_SIZE];
     char direction;
@@ -69,7 +55,7 @@ void Geometry::initBoundaries( void )
     double loc;
     double value;
 
-    FILE *fp = fopen(FNAME_BOUNDARY, "r");
+    FILE *fp = fopen(fname, "r");
     while(fgets (buf, FGET_BUF_SIZE, fp))
     {
         sscanf(buf, "%c %lf %lf %lf %lf", &direction, &start, &end, &loc, &value);
@@ -177,7 +163,7 @@ Node Geometry::sor(float accel_factor, uint16_t i)
     return Node(newValue, node.isBoundary());
 }
 
-double Geometry::iterate( void )
+double Geometry::iterate( float accel_factor )
 {
     double maxError = 0.0f;
 
@@ -187,7 +173,7 @@ double Geometry::iterate( void )
     double error;
     for(uint16_t i = 0; i < getNumNodes(); i++)
     {
-        potentials_shadow[i] = sor(ACCEL_FACT, i);
+        potentials_shadow[i] = sor(accel_factor, i);
 
         error = fabs(potentials_shadow[i].getValue() - potentials[i].getValue());
 
