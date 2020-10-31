@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "node.h"
+#include <node.h>
 
 class Geometry
 {
@@ -11,7 +11,7 @@ public:
     Geometry( double x_max, double y_max, double mesh_size );
     ~Geometry();
     double iterate( void );
-    void save( char *fname );
+    void save( const char *fname );
 private:
     double _mesh_size;
     uint16_t _y_size;

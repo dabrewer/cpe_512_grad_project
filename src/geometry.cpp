@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include <math.h>
 
-#include "geometry.h"
+#include <geometry.h>
 
 using namespace std;
 
@@ -19,8 +19,8 @@ using namespace std;
 
 #define ACCEL_FACT  0.5
 
-#define FNAME_MESH_CFG  "mesh.cfg"
-#define FNAME_BOUNDARY  "boundary.cfg"
+#define FNAME_MESH_CFG  "../config/mesh.cfg"
+#define FNAME_BOUNDARY  "../config/boundary.cfg"
 
 // ################################################################################
 // GEOMETRY
@@ -92,7 +92,7 @@ uint32_t Geometry::getNumNodes( void )
     return _y_size * _x_size;
 }
 
-void Geometry::save( char *fname )
+void Geometry::save( const char *fname )
 {
     double x;
     double y;

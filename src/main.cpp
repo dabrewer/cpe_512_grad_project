@@ -5,10 +5,12 @@
 
 using namespace std;
 
+// g++ -Iinclude/ main.cpp geometry.cpp node.cpp -o ../bin/main
+
 // ################################################################################
 // THESE VALUES WILL BE PASSED IN AS ARGUMENTS LATER
 // ################################################################################
-#define MESH_SIZE   0.25f    // unit: cm
+#define MESH_SIZE   1.0f    // unit: cm
 #define XMAX        65.0f   // unit: cm
 #define YMAX        50.0f   // unit: cm
 
