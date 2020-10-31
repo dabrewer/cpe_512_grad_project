@@ -88,7 +88,7 @@ void Geometry::save( const char *fname )
     {
         for(uint16_t x = 0; x < _x_size; x++)
         {
-            fprintf(fp, "%lf %lf %lf\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue());
+            fprintf(fp, "%lf\t%lf\t%lf\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue());
             //printf("%lf %lf %lf %d\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue(), POTENTIALS(x,y).isBoundary());
         }
     }
@@ -103,36 +103,24 @@ void Geometry::save( const char *fname )
 
 double Geometry::sorResidual(uint16_t x, uint16_t y)
 {   
-    Node current = POTENTIALS(x,y);
-    Node top = POTENTIALS(x,y+1);
-    Node right =  POTENTIALS(x+1,y);
-    Node left = POTENTIALS(x-1,y);
-    Node bottom = POTENTIALS(x,y-1);
-
-    // cout << "top: " << top.getValue() << "\n";
-    // cout << "right: " << right.getValue() << "\n";
-    // cout << "left: " << left.getValue() << "\n";
-    // cout << "bottom: " << bottom.getValue() << "\n";
-
     double rv;
-    
-    // // Left Edge
-    // if(x == 0)
-    //     rv = (top.getValue() + bottom.getValue() + right.getValue()) - 3.0 * current.getValue();
-    // // Right Edge
-    // else if(x == _x_size)
-    //     rv = (top.getValue() + bottom.getValue() + left.getValue()) - 3.0 * current.getValue();
-    // // Top Edge
-    // else if(y == _y_size)
-    //     rv = (bottom.getValue() + left.getValue() + right.getValue()) - 3.0 * current.getValue();
-    // // Bottom Edge
-    // else if(y == 0)
-    //     rv = (top.getValue() + left.getValue() + right.getValue()) - 3.0 * current.getValue();
 
-    if( (x > 0) && (x < _x_size) && (y > 0) && (y < _y_size))
-        rv = (top.getValue() + bottom.getValue() + left.getValue() + right.getValue()) - 4.0 * current.getValue();
-    else
-        rv = current.getValue();
+    // Calculate Residual Error in Each Direction
+    // Must ensure not to reach outside mesh model
+    rv = 0.0;
+
+    // Right Node
+    if((x+1) < _x_size)
+        rv += POTENTIALS(x+1,y).getValue() - POTENTIALS(x,y).getValue();
+    // Left Node
+    if((x-1) >= 0)
+        rv += POTENTIALS(x-1,y).getValue() - POTENTIALS(x,y).getValue();
+    // Top Node
+    if((y+1) < _y_size)
+        rv += POTENTIALS(x,y+1).getValue() - POTENTIALS(x,y).getValue();
+    // Bottom Node
+    if((y-1) >= 0)
+        rv += POTENTIALS(x,y-1).getValue() - POTENTIALS(x,y).getValue();
 
     return rv;
 }
@@ -184,7 +172,7 @@ double Geometry::iterate( float accel_factor )
     free(potentials);
     potentials = potentials_shadow;
 
-    //cout << maxError << endl;
+    cout << maxError << endl;
 
     return maxError;
 }

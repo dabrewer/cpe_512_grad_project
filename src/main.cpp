@@ -5,7 +5,7 @@
 
 using namespace std;
 
-// g++ -Iinclude/ main.cpp geometry.cpp node.cpp -o ../bin/main
+// g++ -Iinclude/ main.cpp geometry.cpp node.cpp -o ../bin/main; ../bin/main
 
 // set pm3d map
 // set view map
