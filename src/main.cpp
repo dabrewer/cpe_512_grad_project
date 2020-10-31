@@ -7,6 +7,11 @@ using namespace std;
 
 // g++ -Iinclude/ main.cpp geometry.cpp node.cpp -o ../bin/main
 
+// set pm3d map
+// set view map
+// splot "mesh.out" u 1:2:3
+// replot
+
 // ################################################################################
 // THESE VALUES WILL BE PASSED IN AS ARGUMENTS LATER
 // ################################################################################
@@ -17,7 +22,7 @@ using namespace std;
 // Define initial state of array
 #define INIT_GUESS  35.0f	// unit: V
 #define PRECISION   0.1f
-#define ACCEL_FACT  0.5
+#define ACCEL_FACT  1.0
 
 #define FNAME_MESH_CFG  "../config/mesh.cfg"
 #define FNAME_BOUNDARY  "../config/boundary.cfg"
