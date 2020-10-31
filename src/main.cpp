@@ -21,7 +21,7 @@ using namespace std;
 
 // Define initial state of array
 #define INIT_GUESS  35.0f	// unit: V
-#define PRECISION   0.1f
+#define PRECISION   0.01f
 #define ACCEL_FACT  1.0
 
 #define FNAME_MESH_CFG  "../config/mesh.cfg"
