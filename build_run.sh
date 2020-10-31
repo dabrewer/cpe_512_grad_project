@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Build executable
-g++ -Iinclude/ src/main.cpp src/geometry.cpp src/node.cpp -o bin/main
+g++ -Isrc/include/ src/main.cpp src/geometry.cpp src/node.cpp -o bin/main
 
 # Run executable
 ./bin/main
