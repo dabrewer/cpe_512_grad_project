@@ -35,11 +35,13 @@ using namespace std;
 // ################################################################################
 int main( int argc, char *argv[] )
 {
+    Geometry *geometry;
+
     // if(argc < 5)
     //     cout << USAGE << endl;
     
     // Initialize 2D voltage mesh representing physical geometry
-    Geometry *geometry = new Geometry(XMAX, YMAX, MESH_SIZE);
+    geometry = new Geometry(XMAX, YMAX, MESH_SIZE);
     geometry->initPotentials(INIT_GUESS);
     geometry->initBoundaries(FNAME_BOUNDARY);
 

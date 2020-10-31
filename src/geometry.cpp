@@ -88,7 +88,7 @@ void Geometry::save( const char *fname )
     {
         for(uint16_t x = 0; x < _x_size; x++)
         {
-            fprintf(fp, "%lf %lf %lf %d\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue(), POTENTIALS(x,y).isBoundary());
+            fprintf(fp, "%lf %lf %lf\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue());
             //printf("%lf %lf %lf %d\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue(), POTENTIALS(x,y).isBoundary());
         }
     }
@@ -184,7 +184,7 @@ double Geometry::iterate( float accel_factor )
     free(potentials);
     potentials = potentials_shadow;
 
-    cout << maxError << endl;
+    //cout << maxError << endl;
 
     return maxError;
 }
