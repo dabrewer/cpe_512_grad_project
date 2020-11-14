@@ -60,8 +60,6 @@ void Geometry::initBoundaries( const char *fname )
     while(fgets (buf, FGET_BUF_SIZE, fp))
     {
         sscanf(buf, "%c %lf %lf %lf %lf", &direction, &start, &end, &loc, &value);
-        
-        // TODO: maybe do error-checking to validate start, end, loc within window range
 
         // printf("%d %d %d\n", (int)(start / _mesh_size), (int)(end / _mesh_size), (int)(loc / _mesh_size));
         // fflush(stdout);
@@ -97,9 +95,6 @@ uint32_t Geometry::getNumNodes( void )
 
 void Geometry::save( const char *fname )
 {
-    double x;
-    double y;
-
     FILE *fp = fopen(fname, "w");
     for(uint16_t y = 0; y < _y_size; y++)
     {
@@ -109,13 +104,6 @@ void Geometry::save( const char *fname )
             //printf("%lf %lf %lf %d\n", (double)(x * _mesh_size), (double)(y * _mesh_size), POTENTIALS(x,y).getValue(), POTENTIALS(x,y).isBoundary());
         }
     }
-    // for(uint32_t i = 0; i < getNumNodes(); i++)
-    // {
-    //     x = (i % _x_size) * _mesh_size;
-    //     y = (i / _x_size) * _mesh_size;
-
-    //     fprintf(fp, "%lf %lf %lf\n", x, y, potentials[i].getValue());
-    // }
 }
 
 double Geometry::sorResidual(uint16_t x, uint16_t y)
@@ -155,10 +143,6 @@ Node Geometry::sor(float accel_factor, uint16_t i)
     y = i / _x_size; // TODO:CONVERT i -> y
 
     node = POTENTIALS(x,y);
-
-    //cout << i << "\t" << x << "\t" << y << "\t" << (y)*_x_size+x << "\n";
-
-    // return node;
 
     if(node.isBoundary())
         return node;
