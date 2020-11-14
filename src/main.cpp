@@ -24,9 +24,9 @@ using namespace std;
 #define PRECISION   0.01f
 #define ACCEL_FACT  1.0
 
-#define FNAME_MESH_CFG  "../config/mesh.cfg"
-#define FNAME_BOUNDARY  "../config/boundary.cfg"
-#define FNAME_OUT       "../output/mesh.out"
+#define FNAME_MESH_CFG  "config/mesh.cfg"
+#define FNAME_BOUNDARY  "config/boundary.cfg"
+#define FNAME_OUT       "output/mesh.out"
 
 #define NUM_ARGS    5
 #define USAGE       "./main <MESH_CFG_PATH> <BOUNDARY_CFG_PATH> <SOR_CFG_PATH> <MESH_OUTPUT_PATH>"

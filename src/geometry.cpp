@@ -63,7 +63,9 @@ void Geometry::initBoundaries( const char *fname )
         
         // TODO: maybe do error-checking to validate start, end, loc within window range
 
-        //printf("%d %d %d\n", (int)(start / _mesh_size), (int)(end / _mesh_size), (int)(loc / _mesh_size));
+        // printf("%d %d %d\n", (int)(start / _mesh_size), (int)(end / _mesh_size), (int)(loc / _mesh_size));
+        // fflush(stdout);
+
         for(uint16_t i = (int)(start / _mesh_size); i <= (int)(end / _mesh_size); i++)
         {
             if(direction == 'h')
