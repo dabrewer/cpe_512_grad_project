@@ -46,10 +46,14 @@ int main( int argc, char *argv[] )
     //     cout << USAGE << endl;
     
     // Initialize 2D voltage mesh representing physical geometry
+    cout << "Initializing Geometry..." << endl;
     geometry = new Geometry(XMAX, YMAX, MESH_SIZE);
+    cout << "Initializing Potentials..." << endl;
     geometry->initPotentials(INIT_GUESS);
+    cout << "Initializing Boundaries..." << endl;
     geometry->initBoundaries(FNAME_BOUNDARY);
 
+    cout << "Starting Iteration..." << endl;
     uint16_t iterations = 0;
     while(geometry->iterate(ACCEL_FACT) > PRECISION)
     {
