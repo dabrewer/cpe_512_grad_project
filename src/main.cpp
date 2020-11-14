@@ -15,7 +15,7 @@ using namespace std;
 // ################################################################################
 // THESE VALUES WILL BE PASSED IN AS ARGUMENTS LATER
 // ################################################################################
-#define MESH_SIZE   1.0f    // unit: cm
+#define MESH_SIZE   5.0f    // unit: cm
 #define XMAX        65.0f   // unit: cm
 #define YMAX        50.0f   // unit: cm
 

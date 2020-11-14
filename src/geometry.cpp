@@ -1,5 +1,6 @@
 #include <iostream>
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 #include <geometry.h>
@@ -66,9 +67,23 @@ void Geometry::initBoundaries( const char *fname )
         for(uint16_t i = (int)(start / _mesh_size); i <= (int)(end / _mesh_size); i++)
         {
             if(direction == 'h')
+            {
+                if(i >= _x_size || (int)(loc / _mesh_size) >= _y_size)
+                {
+                    cout << "BAD BOUNDARY VALUE" << direction << "\t" << start << "\t"  << end << "\t"  << loc << "\t"  << value << endl;
+                    exit(-1);
+                }
                 POTENTIALS(i, (int)(loc / _mesh_size)) = Node(value, true);
+            }
             else
-                POTENTIALS((int)(loc / _mesh_size), i) = Node(value, true);            
+            {
+                if(i >= _y_size || (int)(loc / _mesh_size) >= _x_size)
+                {
+                    cout << "BAD BOUNDARY VALUE" << direction << "\t" << start << "\t"  << end << "\t"  << loc << "\t"  << value << endl;
+                    exit(-1);
+                }
+                POTENTIALS((int)(loc / _mesh_size), i) = Node(value, true);
+            }            
         }
     }
 }
