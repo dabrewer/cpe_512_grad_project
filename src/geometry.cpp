@@ -173,7 +173,7 @@ double Geometry::iterate( float accel_factor )
     delete potentials;
     potentials = potentials_shadow;
 
-    cout << maxError << endl;
+    //cout << maxError << endl;
 
     return maxError;
 }
