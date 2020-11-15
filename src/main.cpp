@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sys/time.h>
 
+#include <omp.h>
+
 #include <mesh.h>
 
 using namespace std;
@@ -10,13 +12,14 @@ using namespace std;
 // ################################################################################
 // CMD LINE ARG DEFINITIONS
 // ################################################################################
-#define NUM_ARGS    6
-#define USAGE       "./bin/main [MESH_CFG_PATH] [BOUNDARY_CFG_PATH] [SOR_CFG_PATH] [MESH_OUTPUT_PATH] [STAT_OUTPUT_PATH]"
-#define FNAME_MESH_CFG   argv[1]
-#define FNAME_BOUNDARY   argv[2]
-#define FNAME_SOR_CFG    argv[3]
-#define FNAME_MESH_OUT   argv[4]
-#define FNAME_STAT_OUT   argv[5]
+#define NUM_ARGS    7
+#define USAGE       "./bin/main [NUM_THREADS] [MESH_CFG_PATH] [BOUNDARY_CFG_PATH] [SOR_CFG_PATH] [MESH_OUTPUT_PATH] [STAT_OUTPUT_PATH]"
+#define NUM_THREADS      atoi(argv[1])
+#define FNAME_MESH_CFG   argv[2]
+#define FNAME_BOUNDARY   argv[3]
+#define FNAME_SOR_CFG    argv[4]
+#define FNAME_MESH_OUT   argv[5]
+#define FNAME_STAT_OUT   argv[6]
 
 // ################################################################################
 // TIMER COMPONENTS
@@ -55,6 +58,11 @@ int main( int argc, char *argv[] )
         cout << USAGE << endl;
         return -1;
     }
+
+    // Configure number of OpenMP threads base on CL arg
+    // Warning No Error Checking 
+    omp_set_num_threads(NUM_THREADS);
+    cout << "Number of Threads: " << NUM_THREADS << endl;
 
     // Load iteration parameters
     cout << "Loading SOR Iteration Params..." << endl;

@@ -11,7 +11,9 @@ mkdir -p $BIN_PATH
 g++ -Isrc/include/ src/main.cpp src/mesh.cpp src/node.cpp -o bin/main
 
 # Run executable
-./bin/main $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out
+./bin/main 1 $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out
+./bin/main 2 $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out
+./bin/main 4 $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out
 
 # Plot result
 gnuplot <<- EOF
