@@ -21,6 +21,7 @@ private:
     uint16_t _y_size;
     uint16_t _x_size;
     Node *potentials;
+    bool _potentials_initialized;
 
     Node sor( float accel_factor, uint16_t i );
     double sorResidual( uint16_t x, uint16_t y );

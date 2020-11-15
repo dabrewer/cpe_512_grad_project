@@ -9,13 +9,8 @@
 using namespace std;
 
 // ################################################################################
-// THESE VALUES WILL BE PASSED IN AS ARGUMENTS LATER
+// CMD LINE ARG DEFINITIONS
 // ################################################################################
-// Define initial state of array
-#define INIT_GUESS  35.0f	// unit: V
-#define PRECISION   0.01f
-#define ACCEL_FACT  1.0
-
 #define NUM_ARGS    7
 #define USAGE       "./bin/main [MESH_CFG_PATH] [BOUNDARY_CFG_PATH] [SOR_CFG_PATH] [MESH_OUTPUT_PATH] [STAT_OUTPUT_PATH]"
 #define FNAME_MESH_CFG   argv[1]
@@ -23,10 +18,6 @@ using namespace std;
 #define FNAME_SOR_CFG    argv[3]
 #define FNAME_MESH_OUT   argv[4]
 #define FNAME_STAT_OUT   argv[5]
-
-// double INIT_GUESS = 0;
-// double PRECISION = 0;
-// double ACCEL_FACT = 0;
 
 // ################################################################################
 // TIMER COMPONENTS
@@ -39,7 +30,17 @@ using namespace std;
 #define TIMER_STOP      gettimeofday(&tv2, (struct timezone*)0)
 struct timeval tv1,tv2;
 
-void loadMeshCfg(char* fname);
+// ################################################################################
+// GLOBAL VARIABLES
+// ################################################################################
+double INIT_GUESS;
+double PRECISION;
+double ACCEL_FACT;
+
+// ################################################################################
+// FUNCTION DECLARATIONS
+// ################################################################################
+void loadSorCfg(char* fname);
 
 // ################################################################################
 // MAIN
@@ -53,11 +54,15 @@ int main( int argc, char *argv[] )
     if(argc != NUM_ARGS)
         cout << USAGE << endl;
 
+    // Load iteration parameters
+    cout << "Loading SOR Iteration Params..." << endl;
+    loadSorCfg(FNAME_SOR_CFG);
+
     // Initialize 2D voltage mesh representing physical geometry
     cout << "Initializing Geometry..." << endl;
     geometry = new Geometry(FNAME_MESH_CFG);
-    cout << "Initializing Potentials..." << endl;
-    geometry->initPotentials(INIT_GUESS);
+    // cout << "Initializing Potentials..." << endl;
+    // geometry->initPotentials(INIT_GUESS);
     cout << "Initializing Boundaries..." << endl;
     geometry->initBoundaries(FNAME_BOUNDARY);
 
@@ -75,6 +80,7 @@ int main( int argc, char *argv[] )
     TIMER_STOP;
 
     // Display run information on screen
+    cout << "Saving Results..." << endl;
     cout << "Iterations: " << iterations << endl;
     cout << "Elapsed Time: " << TIMER_ELAPSED << endl;
 
@@ -86,4 +92,32 @@ int main( int argc, char *argv[] )
     statFile << geometry->getNumNodes() << " " << TIMER_ELAPSED << endl; 
 
     delete geometry;
+}
+
+// ################################################################################
+// HELPER FUNCTIONS
+// ################################################################################
+void loadSorCfg(char *fname)
+{
+    char buf[100];
+
+    FILE *fp = fopen(fname, "r");
+    while(fgets(buf, 100, fp))
+    {
+        char key[100];
+        double value;
+
+        sscanf(buf, "%s : %lf", key, &value);
+
+        if(strcmp("ACCEL_FACT", key) == 0)
+        {
+            ACCEL_FACT = value;
+            cout << "ACCEL FACTOR: " << ACCEL_FACT << endl;
+        }
+        if(strcmp("PRECISION", key) == 0)
+        {
+            PRECISION = value;
+            cout << "PRECISION: " << PRECISION << endl;
+        }
+    }
 }

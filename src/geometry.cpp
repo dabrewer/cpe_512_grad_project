@@ -23,6 +23,8 @@ Geometry::Geometry( const char *cfg_file )
 {
     char buf[FGET_BUF_SIZE];
 
+    _potentials_initialized = false;
+
     FILE *fp = fopen(cfg_file, "r");
     while(fgets(buf, FGET_BUF_SIZE, fp))
     {
@@ -32,23 +34,33 @@ Geometry::Geometry( const char *cfg_file )
         sscanf(buf, "%s : %lf", key, &value);
         //printf("%s : %lf\n", key, value);
 
-        if(strcmp("SIZE", key) == 0)
-            _mesh_size = value;
         if(strcmp("XMAX", key) == 0)
+        {
             _x_size = (int)(value / _mesh_size) + 1;
+            cout << "x_size: " << _x_size << endl;
+        }
         if(strcmp("YMAX", key) == 0)
+        {
             _y_size = (int)(value / _mesh_size) + 1;
+            cout << "y_size: " << _y_size << endl;
+        }
+        if(strcmp("SIZE", key) == 0)
+        {
+            _mesh_size = value;
+        }
+        // NOTE: This assumes XMAX and YMAX preced INIT_GUESS in file
+        if(strcmp("INIT_GUESS", key) == 0)
+        {
+            // Init all nodes to INIT_GUESS value
+            initPotentials(value);
+        }
     }
-
-    cout << "x_size: " << _x_size << endl;
-    cout << "y_size: " << _y_size << endl;
-
-    // Dynamically allocate space for array
-    potentials = new Node[getNumNodes()];
 }
 
 Geometry::Geometry( const double x_max, const double y_max, const double mesh_size )
 {
+    _potentials_initialized = false;
+
     _mesh_size = mesh_size;
 
     // Calculate array dimensions based upon input arguments
@@ -57,9 +69,6 @@ Geometry::Geometry( const double x_max, const double y_max, const double mesh_si
 
     cout << "x_size: " << _x_size << endl;
     cout << "y_size: " << _y_size << endl;
-
-    // Dynamically allocate space for array
-    potentials = new Node[getNumNodes()];
 }
 
 Geometry::~Geometry()
@@ -69,8 +78,16 @@ Geometry::~Geometry()
 
 void Geometry::initPotentials( const double guess )
 {
-    uint32_t elements = (uint32_t)(_y_size * _x_size);
-    for(uint32_t i = 0; i < elements; i++)
+    // Only allocate memory once
+    if( _potentials_initialized == false)
+    {
+        _potentials_initialized = true;
+        // Dynamically allocate space for array
+        potentials = new Node[getNumNodes()];
+    }
+
+    // Make initial guess for all nodes
+    for(uint32_t i = 0; i < getNumNodes(); i++)
     {
         potentials[i] = Node(guess, false);
     }
