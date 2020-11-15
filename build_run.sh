@@ -1,10 +1,13 @@
 #!/bin/bash
+CFG_PATH=config
+OUT_PATH=output
+
 
 # Build executable
 g++ -Isrc/include/ src/main.cpp src/geometry.cpp src/node.cpp -o bin/main
 
 # Run executable
-./bin/main
+./bin/main $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out
 
 # Plot result
 gnuplot <<- EOF

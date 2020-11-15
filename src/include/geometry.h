@@ -8,6 +8,7 @@
 class Geometry
 {
 public:
+    Geometry( const char *cfg_file );
     Geometry( const double x_max, const double y_max, const double mesh_size );
     ~Geometry();
     void initPotentials( const double guess );

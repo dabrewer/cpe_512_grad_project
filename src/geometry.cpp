@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #include <geometry.h>
 
@@ -18,6 +19,34 @@ using namespace std;
 // ################################################################################
 // GEOMETRY
 // ################################################################################
+Geometry::Geometry( const char *cfg_file )
+{
+    char buf[FGET_BUF_SIZE];
+
+    FILE *fp = fopen(cfg_file, "r");
+    while(fgets(buf, FGET_BUF_SIZE, fp))
+    {
+        char key[FGET_BUF_SIZE];
+        double value;
+
+        sscanf(buf, "%s : %lf", key, &value);
+        //printf("%s : %lf\n", key, value);
+
+        if(strcmp("SIZE", key) == 0)
+            _mesh_size = value;
+        if(strcmp("XMAX", key) == 0)
+            _x_size = (int)(value / _mesh_size) + 1;
+        if(strcmp("YMAX", key) == 0)
+            _y_size = (int)(value / _mesh_size) + 1;
+    }
+
+    cout << "x_size: " << _x_size << endl;
+    cout << "y_size: " << _y_size << endl;
+
+    // Dynamically allocate space for array
+    potentials = new Node[getNumNodes()];
+}
+
 Geometry::Geometry( const double x_max, const double y_max, const double mesh_size )
 {
     _mesh_size = mesh_size;
@@ -57,7 +86,7 @@ void Geometry::initBoundaries( const char *fname )
     double value;
 
     FILE *fp = fopen(fname, "r");
-    while(fgets (buf, FGET_BUF_SIZE, fp))
+    while(fgets(buf, FGET_BUF_SIZE, fp))
     {
         sscanf(buf, "%c %lf %lf %lf %lf", &direction, &start, &end, &loc, &value);
 
