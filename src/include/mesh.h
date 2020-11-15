@@ -1,16 +1,16 @@
-#ifndef _GEOMETRY_H_
-#define _GEOMETRY_H_
+#ifndef _MESH_H_
+#define _MESH_H_
 
 #include <stdint.h>
 
 #include <node.h>
 
-class Geometry
+class Mesh
 {
 public:
-    Geometry( const char *cfg_file );
-    Geometry( const double x_max, const double y_max, const double mesh_size );
-    ~Geometry();
+    Mesh( const char *cfg_file );
+    Mesh( const double x_max, const double y_max, const double mesh_size );
+    ~Mesh();
     void initPotentials( const double guess );
     void initBoundaries( const char *fname );
     uint32_t getNumNodes( void );
@@ -27,4 +27,4 @@ private:
     double sorResidual( uint16_t x, uint16_t y );
 };
 
-#endif // _GEOMETRY_H_
+#endif // _MESH_H_

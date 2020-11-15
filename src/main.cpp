@@ -2,16 +2,15 @@
 #include <string.h>
 #include <fstream>
 #include <sys/time.h>
-//#include <omp.h>
 
-#include <geometry.h>
+#include <mesh.h>
 
 using namespace std;
 
 // ################################################################################
 // CMD LINE ARG DEFINITIONS
 // ################################################################################
-#define NUM_ARGS    7
+#define NUM_ARGS    6
 #define USAGE       "./bin/main [MESH_CFG_PATH] [BOUNDARY_CFG_PATH] [SOR_CFG_PATH] [MESH_OUTPUT_PATH] [STAT_OUTPUT_PATH]"
 #define FNAME_MESH_CFG   argv[1]
 #define FNAME_BOUNDARY   argv[2]
@@ -47,24 +46,25 @@ void loadSorCfg(char* fname);
 // ################################################################################
 int main( int argc, char *argv[] )
 {
-    Geometry *geometry;
+    Mesh *mesh;
     uint16_t iterations;
     ofstream statFile;
 
     if(argc != NUM_ARGS)
+    {
         cout << USAGE << endl;
+        return -1;
+    }
 
     // Load iteration parameters
     cout << "Loading SOR Iteration Params..." << endl;
     loadSorCfg(FNAME_SOR_CFG);
 
     // Initialize 2D voltage mesh representing physical geometry
-    cout << "Initializing Geometry..." << endl;
-    geometry = new Geometry(FNAME_MESH_CFG);
-    // cout << "Initializing Potentials..." << endl;
-    // geometry->initPotentials(INIT_GUESS);
+    cout << "Initializing Mesh..." << endl;
+    mesh = new Mesh(FNAME_MESH_CFG);
     cout << "Initializing Boundaries..." << endl;
-    geometry->initBoundaries(FNAME_BOUNDARY);
+    mesh->initBoundaries(FNAME_BOUNDARY);
 
     // Start iteration
     cout << "Starting Iteration..." << endl;
@@ -72,7 +72,7 @@ int main( int argc, char *argv[] )
     TIMER_START;
     
     iterations = 0;
-    while(geometry->iterate(ACCEL_FACT) > PRECISION)
+    while(mesh->iterate(ACCEL_FACT) > PRECISION)
     {
         iterations++;
     }
@@ -85,13 +85,13 @@ int main( int argc, char *argv[] )
     cout << "Elapsed Time: " << TIMER_ELAPSED << endl;
 
     // Save mesh model to output file
-    geometry->save(FNAME_MESH_OUT);
+    mesh->save(FNAME_MESH_OUT);
 
     // Append run statistics to output file
     statFile.open(FNAME_STAT_OUT, ios_base::app);
-    statFile << geometry->getNumNodes() << " " << TIMER_ELAPSED << endl; 
+    statFile << mesh->getNumNodes() << " " << TIMER_ELAPSED << endl; 
 
-    delete geometry;
+    delete mesh;
 }
 
 // ################################################################################

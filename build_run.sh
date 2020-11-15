@@ -1,10 +1,14 @@
 #!/bin/bash
 CFG_PATH=config
 OUT_PATH=output
+BIN_PATH=bin
 
+# Ensure the output directories exist
+mkdir -p $OUT_PATH
+mkdir -p $BIN_PATH
 
 # Build executable
-g++ -Isrc/include/ src/main.cpp src/geometry.cpp src/node.cpp -o bin/main
+g++ -Isrc/include/ src/main.cpp src/mesh.cpp src/node.cpp -o bin/main
 
 # Run executable
 ./bin/main $CFG_PATH/mesh.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh.out $OUT_PATH/stat.out

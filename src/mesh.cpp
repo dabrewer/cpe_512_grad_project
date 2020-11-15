@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string.h>
 
-#include <geometry.h>
+#include <mesh.h>
 
 using namespace std;
 
@@ -17,9 +17,9 @@ using namespace std;
 #define FGET_BUF_SIZE   100
 
 // ################################################################################
-// GEOMETRY
+// MESH
 // ################################################################################
-Geometry::Geometry( const char *cfg_file )
+Mesh::Mesh( const char *cfg_file )
 {
     char buf[FGET_BUF_SIZE];
 
@@ -57,7 +57,7 @@ Geometry::Geometry( const char *cfg_file )
     }
 }
 
-Geometry::Geometry( const double x_max, const double y_max, const double mesh_size )
+Mesh::Mesh( const double x_max, const double y_max, const double mesh_size )
 {
     _potentials_initialized = false;
 
@@ -71,12 +71,12 @@ Geometry::Geometry( const double x_max, const double y_max, const double mesh_si
     cout << "y_size: " << _y_size << endl;
 }
 
-Geometry::~Geometry()
+Mesh::~Mesh()
 {
     delete potentials;
 }
 
-void Geometry::initPotentials( const double guess )
+void Mesh::initPotentials( const double guess )
 {
     // Only allocate memory once
     if( _potentials_initialized == false)
@@ -93,7 +93,7 @@ void Geometry::initPotentials( const double guess )
     }
 }
 
-void Geometry::initBoundaries( const char *fname )
+void Mesh::initBoundaries( const char *fname )
 {
     char buf[FGET_BUF_SIZE];
     char direction;
@@ -134,12 +134,12 @@ void Geometry::initBoundaries( const char *fname )
     }
 }
 
-uint32_t Geometry::getNumNodes( void )
+uint32_t Mesh::getNumNodes( void )
 {
     return _y_size * _x_size;
 }
 
-void Geometry::save( const char *fname )
+void Mesh::save( const char *fname )
 {
     FILE *fp = fopen(fname, "w");
     for(uint16_t y = 0; y < _y_size; y++)
@@ -152,7 +152,7 @@ void Geometry::save( const char *fname )
     }
 }
 
-double Geometry::sorResidual(uint16_t x, uint16_t y)
+double Mesh::sorResidual(uint16_t x, uint16_t y)
 {   
     double rv;
 
@@ -178,7 +178,7 @@ double Geometry::sorResidual(uint16_t x, uint16_t y)
 
 // TODO: SOR NEEDS TO RETURN NODE, NOT DOUBLE, SINCE IT IS FILLING A NODE ARRAY
 // ALSO, WE NEED TO RETAIN IS BOUNDARY DATA WHEN WE RETURN BOUNDARY NODES TOO
-Node Geometry::sor(float accel_factor, uint16_t i)
+Node Mesh::sor(float accel_factor, uint16_t i)
 {
     Node node;
     uint16_t x;
@@ -198,7 +198,7 @@ Node Geometry::sor(float accel_factor, uint16_t i)
     return Node(newValue, node.isBoundary());
 }
 
-double Geometry::iterate( float accel_factor )
+double Mesh::iterate( float accel_factor )
 {
     double maxError = 0.0f;
 
