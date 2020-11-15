@@ -208,7 +208,7 @@ double Mesh::iterate( float accel_factor )
     #pragma omp parallel
     {
         double error;
-        #pragma omp for schedule (static)
+        #pragma omp for schedule (static) reduction (max:maxError)
         for(uint16_t i = 0; i < getNumNodes(); i++)
         {
             potentials_shadow[i] = sor(accel_factor, i);
@@ -223,7 +223,7 @@ double Mesh::iterate( float accel_factor )
     delete potentials;
     potentials = potentials_shadow;
 
-    //cout << maxError << endl;
+    cout << maxError << endl;
 
     return maxError;
 }
