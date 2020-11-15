@@ -223,7 +223,5 @@ double Mesh::iterate( float accel_factor )
     delete potentials;
     potentials = potentials_shadow;
 
-    cout << maxError << endl;
-
     return maxError;
 }
