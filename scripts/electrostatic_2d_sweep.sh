@@ -4,7 +4,6 @@
 # DEFINITIONS
 ####################################################################################################
 # Run characteristics
-ITERATION_RANGE={1..10}
 THREAD_RANGE="1 2 4 8 16 32"
 SIZE_RANGE="2.0 1.5 1.0 0.75 0.5 0.25"
 
@@ -14,7 +13,7 @@ SIZE_RANGE="2.0 1.5 1.0 0.75 0.5 0.25"
 # Function to run the serial configuration 10 times for each size configuration
 run_serial()
 {
-    for i in $ITERATION_RANGE
+    for i in {1..10}
     do
         for s in $SIZE_RANGE
         do
@@ -26,7 +25,7 @@ run_serial()
 # Function to run each OMP thread/size configuration 10 times
 run_omp()
 {
-    for i in $ITERATION_RANGE
+    for i in {1..10}
     do
         for t in $THREAD_RANGE
         do
