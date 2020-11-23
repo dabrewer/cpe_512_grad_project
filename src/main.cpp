@@ -89,7 +89,7 @@ int main( int argc, char *argv[] )
 
     // Append run statistics to output file
     statFile.open(FNAME_STAT_OUT, ios_base::app);
-    statFile << 1 << "," << mesh->getNumNodes() << "," << iterations << "," << TIMER_ELAPSED << endl;  
+    statFile << 'S' << "," << mesh->getNumNodes() << "," << iterations << "," << TIMER_ELAPSED << endl;  
 
     delete mesh;
 }
