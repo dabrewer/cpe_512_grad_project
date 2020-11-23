@@ -22,7 +22,7 @@ run_serial()
     do
         for s in $SIZE_RANGE
         do
-            ./bin/main_serial $CFG_PATH/mesh_${s}.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh_serial_${s}.out $OUT_PATH/stat_serial.out
+            ./bin/main_serial $CFG_PATH/mesh_${s}.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh_serial_${s}.out $OUT_PATH/stat.out
         done
     done
 }
@@ -36,7 +36,7 @@ run_omp()
         do
             for s in $SIZE_RANGE
             do
-                ./bin/main $t $CFG_PATH/mesh_${s}.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh_${t}_${s}.out $OUT_PATH/stat_parallel.out
+                ./bin/main $t $CFG_PATH/mesh_${s}.cfg $CFG_PATH/boundary.cfg $CFG_PATH/sor.cfg $OUT_PATH/mesh_${t}_${s}.out $OUT_PATH/stat.out
             done
         done
     done
