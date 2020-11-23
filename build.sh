@@ -5,6 +5,7 @@ BIN_PATH=bin
 
 # Ensure the output directories exist
 mkdir -p $OUT_PATH
+mkdir -p $OUT_PATH/post
 mkdir -p $BIN_PATH
 
 # Build executable
