@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # GLOBALS
 ################################################################################
 STAT_FNAME='output/stat.out'
-NUM_THREADS = ['S', '1', '2', '4', '8', '16']
+NUM_THREADS = ['S', '1', '2', '4', '8', '16', '32']
 
 TIME_TOTAL  = 0
 TIME_POINT  = 1
@@ -50,6 +50,7 @@ class LinePlot:
         ax.set(title=self.title)
         ax.set(xlabel=self.xlabel)
         ax.set(ylabel=self.ylabel)
+        ax.set(xscale="log")
         ax.grid()
         # Generat Plot Lines
         for threads in NUM_THREADS:
@@ -83,6 +84,7 @@ class ScatterPlot:
         ax.set(title=self.title)
         ax.set(xlabel=self.xlabel)
         ax.set(ylabel=self.ylabel)
+        ax.set(xscale="log")
         ax.grid()
         # Generat Plot Lines
         for threads in NUM_THREADS:
