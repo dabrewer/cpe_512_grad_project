@@ -10,15 +10,15 @@ BIN_PATH=bin
 
 # Run characteristics
 THREAD_RANGE="1 2 4 8 16 32"
-SIZE_RANGE="2.0 1.5 1.0 0.75 0.5 0.25"
+SIZE_RANGE="2.0 1.5 1.25 1.0 0.75 0.65 0.55 0.5 0.4 0.3 0.25"
 
 ####################################################################################################
 # PROGRAM EXECUTION FUNCTIONS
 ####################################################################################################
-# Function to run the serial configuration 10 times for each size configuration
+# Function to run the serial configuration 100 times for each size configuration
 run_serial()
 {
-    for i in {1..10}
+    for i in {1..100}
     do
         for s in $SIZE_RANGE
         do
@@ -27,10 +27,10 @@ run_serial()
     done
 }
 
-# Function to run each OMP thread/size configuration 10 times
+# Function to run each OMP thread/size configuration 100 times
 run_omp()
 {
-    for i in {1..10}
+    for i in {1..100}
     do
         for t in $THREAD_RANGE
         do
