@@ -80,14 +80,10 @@ int main( int argc, char *argv[] )
     TIMER_CLEAR;
     TIMER_START;
     
-    #pragma omp parallel
+    iterations = 0;
+    while(mesh->iterate(ACCEL_FACT) > PRECISION)
     {
-
-        iterations = 0;
-        while(mesh->iterate(ACCEL_FACT) > PRECISION)
-        {
-            iterations++;
-        }
+        iterations++;
     }
     
     TIMER_STOP;
