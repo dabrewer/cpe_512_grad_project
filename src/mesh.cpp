@@ -205,19 +205,17 @@ double Mesh::iterate( float accel_factor )
     Node *potentials_shadow;
     potentials_shadow = new Node[getNumNodes()];   
 
-    #pragma omp parallel
+
+    double error;
+    #pragma omp for schedule (static) reduction (max:maxError)
+    for(uint16_t i = 0; i < getNumNodes(); i++)
     {
-        double error;
-        #pragma omp for schedule (static) reduction (max:maxError)
-        for(uint16_t i = 0; i < getNumNodes(); i++)
-        {
-            potentials_shadow[i] = sor(accel_factor, i);
+        potentials_shadow[i] = sor(accel_factor, i);
 
-            error = fabs(potentials_shadow[i].getValue() - potentials[i].getValue());
+        error = fabs(potentials_shadow[i].getValue() - potentials[i].getValue());
 
-            if(error > maxError)
-                maxError = error;
-        }
+        if(error > maxError)
+            maxError = error;
     }
 
     delete potentials;
