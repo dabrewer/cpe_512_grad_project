@@ -8,5 +8,6 @@ mkdir -p $OUT_PATH
 mkdir -p $OUT_PATH/post
 mkdir -p $BIN_PATH
 
-# Build executable
-g++ -Isrc/include/ src/main.cpp src/mesh.cpp src/node.cpp -o bin/main -fopenmp
+# Build executables
+g++ -Isrc/include/ src_serial/main.cpp src_serial/mesh.cpp src_serial/node.cpp -o bin/main_serial -fopenmp -O3
+g++ -Isrc/include/ src/main.cpp src/mesh.cpp src/node.cpp -o bin/main -fopenmp -O3
