@@ -1,0 +1,12 @@
+################################################################################
+# Instructions for Running the Project
+################################################################################
+1) Navigate to the root directory of the project
+2) Build the serial and parallel executables
+    ./build.sh
+3) Run the programs under all configurations with 32 nodes
+    run_script_omp scripts/run.sh
+4) Run post analysis scripts to generate plots
+    python scripts/postprocessing.py
+5) Generate heatmap plots for all mesh*.out files in output
+    python scripts/generateHeatmaps.py
