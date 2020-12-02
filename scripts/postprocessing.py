@@ -158,3 +158,8 @@ for stat in stats_set:
     stat.variance = np.var([s.time for s in stats if s == stat]) / np.mean([s.time for s in stats if s == stat])
 plot_time_total_variance = ScatterPlot('Execution Time Relative Variance', 'Number of Mesh Nodes', 'Relative Variance', 'output/post/time_total_variance.png')
 plot_time_total_variance.generate(stats_set, VARIANCE)
+
+# with open('stats.csv', mode='w') as f:
+#     writer = csv.writer(f, delimiter=',')
+#     for stat in sorted(stats_set, key=lambda x: x.points):
+#         writer.writerow([stat.points, stat.threads, stat.time, stat.variance])
