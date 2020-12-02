@@ -6,7 +6,10 @@
     ./build.sh
 3) Run the programs under all configurations with 32 nodes
     run_script_omp scripts/run.sh
-4) Run post analysis scripts to generate plots
+4) *+Run post analysis scripts to generate plots
     python scripts/postprocessing.py
-5) Generate heatmap plots for all mesh*.out files in output
+5) *Generate heatmap plots for all mesh*.out files in output
     python scripts/generateHeatmaps.py
+
+* I ran steps 4,5 on my local machine, due to numpy and matplotlib issues
++ Ensure the direcotry output/post exists
